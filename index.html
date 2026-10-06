@@ -21,6 +21,19 @@ input:focus,select:focus{border-color:var(--accent)}.primary{width:100%;border:0
 .summary{display:flex;justify-content:space-between;gap:15px;align-items:flex-start}.summary strong{font-size:30px}.empty{text-align:center;color:var(--muted);padding:36px 8px}.switchline{display:flex;justify-content:space-between;align-items:center;gap:12px}.switchline input{width:auto;transform:scale(1.25)}.forecast{font-size:20px;font-weight:750;margin-top:18px}
 .cash-input{font-size:24px;font-weight:750}.filters{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}.filter-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.history-total{font-size:32px;font-weight:800;margin-top:4px}.quick{display:flex;gap:7px;flex-wrap:wrap;margin-top:12px}.quick button{border:1px solid var(--line);background:transparent;color:var(--text);border-radius:999px;padding:7px 10px;font-size:12px}.quick button.active{background:var(--accent);color:#0b1020;border-color:transparent}.hint{font-size:12px;color:var(--muted);line-height:1.5}.notice{min-height:18px;font-size:12px;color:var(--muted);margin-top:7px}
 @media(max-width:900px){.filters{grid-template-columns:1fr}.statgrid{grid-template-columns:repeat(2,1fr)}}@media(max-width:760px){.app{padding:14px}.top{display:block}.tabs{margin-top:14px}.grid,.two{grid-template-columns:1fr}.statgrid{grid-template-columns:1fr 1fr}.money{font-size:36px}.runway{font-size:58px}.card{padding:17px}}
+
+.theme-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}
+.theme-preset{border:1px solid var(--line);background:var(--card2);color:var(--text);padding:12px;border-radius:14px;text-align:left}
+.theme-preset.active{outline:2px solid var(--accent);border-color:transparent}
+.theme-dots{display:flex;gap:6px;margin-bottom:9px}.theme-dots i{width:18px;height:18px;border-radius:50%;display:block;border:1px solid rgba(255,255,255,.18)}
+.theme-controls{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:12px}
+.color-field{background:var(--card2);border:1px solid var(--line);padding:12px;border-radius:14px}
+.color-field label{margin:0 0 8px}.color-field input[type=color]{height:44px;padding:4px;cursor:pointer}
+.range-row{display:grid;grid-template-columns:1fr auto;align-items:center;gap:12px}
+input[type=range]{padding:0;border:0;background:transparent}
+.preview-card{margin-top:14px;background:var(--card2);border:1px solid var(--line);border-radius:var(--radius,20px);padding:16px}
+@media(max-width:760px){.theme-grid{grid-template-columns:1fr 1fr}.theme-controls{grid-template-columns:1fr}}
+
 </style>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-title" content="Runway Finance">
@@ -47,6 +60,7 @@ input:focus,select:focus{border-color:var(--accent)}.primary{width:100%;border:0
       <button class="tab" data-page="transactions">รายการ</button>
       <button class="tab" data-page="pendingPage">เงินรอรับ</button>
       <button class="tab" data-page="history">ประวัติรายรับ</button>
+      <button class="tab" data-page="settings">ธีม</button>
     </div>
   </div>
 
@@ -216,17 +230,80 @@ input:focus,select:focus{border-color:var(--accent)}.primary{width:100%;border:0
       </div>
     </section>
 
+    <section id="settings" class="page">
+      <div class="two">
+        <div class="card">
+          <h2>ธีมแอป</h2>
+          <div class="muted">เลือกคู่สีสำเร็จรูป หรือปรับสีเองได้ การตั้งค่าจะจำไว้บนเครื่องนี้</div>
+          <div id="themePresets" class="theme-grid"></div>
+        </div>
+        <div class="card">
+          <div class="summary">
+            <div><h2>ปรับเอง</h2><div class="muted">เปลี่ยนแล้วเห็นผลทันที</div></div>
+            <button id="resetTheme" class="secondary" type="button">คืนค่าเดิม</button>
+          </div>
+          <div class="theme-controls">
+            <div class="color-field"><label>สีพื้นหลัง</label><input id="themeBg" type="color"></div>
+            <div class="color-field"><label>สีการ์ด</label><input id="themeCard" type="color"></div>
+            <div class="color-field"><label>สีหลัก / Accent</label><input id="themeAccent" type="color"></div>
+          </div>
+          <label>ความโค้งของการ์ด</label>
+          <div class="range-row"><input id="themeRadius" type="range" min="8" max="30" step="1"><b id="themeRadiusValue">20px</b></div>
+          <label>ขนาดตัวอักษร</label>
+          <div class="range-row"><input id="themeFont" type="range" min="14" max="19" step="1"><b id="themeFontValue">16px</b></div>
+          <div class="preview-card">
+            <div class="muted">ตัวอย่าง</div>
+            <div style="font-size:26px;font-weight:800;margin:5px 0">฿125,000</div>
+            <button class="primary" type="button" style="max-width:220px">ปุ่มหลัก</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
   </main>
 </div>
 
 <script>
 const KEY='runwayFinanceV1';
-let state={items:[],fixedItems:[]};
+let state={items:[],fixedItems:[],theme:null};
 const $=id=>document.getElementById(id);
 const money=n=>new Intl.NumberFormat('th-TH',{style:'currency',currency:'THB',maximumFractionDigits:0}).format(Number(n)||0);
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const names={income:'รายรับ',expense:'รายจ่าย',investment:'ลงทุน',pending:'รอรับ'};
 let historyMode='all';
+
+
+const THEME_DEFAULT={name:'midnight',bg:'#0c0d10',card:'#15171c',card2:'#1b1e24',line:'#2a2e37',text:'#f5f6f8',muted:'#9298a5',accent:'#8fa8ff',radius:20,font:16};
+const THEME_PRESETS=[
+ {name:'midnight',label:'Midnight Blue',bg:'#0c0d10',card:'#15171c',card2:'#1b1e24',line:'#2a2e37',text:'#f5f6f8',muted:'#9298a5',accent:'#8fa8ff'},
+ {name:'rose',label:'Rose Wallet',bg:'#160f12',card:'#21161b',card2:'#2b1d23',line:'#463039',text:'#fff7f8',muted:'#b99ba5',accent:'#ef8f9e'},
+ {name:'mint',label:'Mint Money',bg:'#0b1210',card:'#111c18',card2:'#182721',line:'#294239',text:'#f2fff9',muted:'#91afa2',accent:'#72d5ad'},
+ {name:'ocean',label:'Ocean',bg:'#081117',card:'#0e1b24',card2:'#142631',line:'#25404f',text:'#f1faff',muted:'#8eabb9',accent:'#63bfe8'},
+ {name:'cream',label:'Warm Cream',bg:'#f3eee6',card:'#fffaf3',card2:'#eee6da',line:'#d8cdbc',text:'#27231f',muted:'#746b62',accent:'#b97855'},
+ {name:'mono',label:'Monochrome',bg:'#0a0a0a',card:'#151515',card2:'#202020',line:'#343434',text:'#ffffff',muted:'#999999',accent:'#eeeeee'}
+];
+function themeNow(){return Object.assign({},THEME_DEFAULT,state.theme||{});}
+function applyTheme(){
+ const t=themeNow(),r=document.documentElement.style;
+ r.setProperty('--bg',t.bg);r.setProperty('--card',t.card);r.setProperty('--card2',t.card2);
+ r.setProperty('--line',t.line);r.setProperty('--text',t.text);r.setProperty('--muted',t.muted);r.setProperty('--accent',t.accent);
+ r.setProperty('--radius',(t.radius||20)+'px');document.body.style.fontSize=(t.font||16)+'px';
+ document.querySelectorAll('.card').forEach(x=>x.style.borderRadius=(t.radius||20)+'px');
+ const meta=document.querySelector('meta[name="theme-color"]'); if(meta) meta.content=t.bg;
+}
+function renderThemeSettings(){
+ const box=$('themePresets'); if(!box)return; const t=themeNow();
+ box.innerHTML=THEME_PRESETS.map(p=>`<button type="button" class="theme-preset ${t.name===p.name?'active':''}" data-theme="${p.name}">
+ <span class="theme-dots"><i style="background:${p.bg}"></i><i style="background:${p.card}"></i><i style="background:${p.accent}"></i></span><b>${p.label}</b></button>`).join('');
+ $('themeBg').value=t.bg;$('themeCard').value=t.card;$('themeAccent').value=t.accent;
+ $('themeRadius').value=t.radius||20;$('themeRadiusValue').textContent=(t.radius||20)+'px';
+ $('themeFont').value=t.font||16;$('themeFontValue').textContent=(t.font||16)+'px';
+}
+function setCustomTheme(){
+ const t=themeNow(); t.name='custom'; t.bg=$('themeBg').value;t.card=$('themeCard').value;t.accent=$('themeAccent').value;
+ t.card2=t.card;t.radius=+$('themeRadius').value;t.font=+$('themeFont').value;
+ state.theme=t;save();applyTheme();renderThemeSettings();
+}
 
 function load(){
   try{
@@ -234,15 +311,17 @@ function load(){
     if(x&&typeof x==='object'){
       state.items=Array.isArray(x.items)?x.items:[];
       state.fixedItems=Array.isArray(x.fixedItems)?x.fixedItems:[];
+      state.theme=x.theme&&typeof x.theme==='object'?x.theme:null;
     }
   }catch(e){
-    state={items:[],fixedItems:[]};
+    state={items:[],fixedItems:[],theme:null};
   }
 }
 function save(){localStorage.setItem(KEY,JSON.stringify(state));}
 function totals(){const t={income:0,expense:0,investment:0,pending:0};state.items.forEach(x=>t[x.type]=(t[x.type]||0)+Number(x.amount));return t;}
 function fixedTotal(){return state.fixedItems.reduce((s,x)=>s+Number(x.amount),0);}
 function render(){
+  applyTheme();
   const t=totals(),ft=fixedTotal();
   const available=Math.max(0,t.income-t.expense-t.investment);
   $('available').textContent=money(available);
@@ -462,8 +541,19 @@ $('applyRange').addEventListener('click',()=>{
   historyMode='custom';renderHistory();
 });
 
+
+$('themePresets').addEventListener('click',e=>{
+ const b=e.target.closest('[data-theme]');if(!b)return;
+ const p=THEME_PRESETS.find(x=>x.name===b.dataset.theme);if(!p)return;
+ const old=themeNow();state.theme=Object.assign({},p,{radius:old.radius||20,font:old.font||16});save();applyTheme();renderThemeSettings();
+});
+['themeBg','themeCard','themeAccent'].forEach(id=>$(id).addEventListener('input',setCustomTheme));
+$('themeRadius').addEventListener('input',()=>{$('themeRadiusValue').textContent=$('themeRadius').value+'px';setCustomTheme();});
+$('themeFont').addEventListener('input',()=>{$('themeFontValue').textContent=$('themeFont').value+'px';setCustomTheme();});
+$('resetTheme').addEventListener('click',()=>{state.theme={...THEME_DEFAULT};save();applyTheme();renderThemeSettings();});
+
 const d=new Date();$('date').value=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
-load();render();
+load();applyTheme();render();renderThemeSettings();
 </script>
 
 <script>
