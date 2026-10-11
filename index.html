@@ -34,6 +34,48 @@ input[type=range]{padding:0;border:0;background:transparent}
 .preview-card{margin-top:14px;background:var(--card2);border:1px solid var(--line);border-radius:var(--radius,20px);padding:16px}
 @media(max-width:760px){.theme-grid{grid-template-columns:1fr 1fr}.theme-controls{grid-template-columns:1fr}}
 
+
+/* V3: touch-friendly 3-column navigation */
+.tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;overflow:visible;width:100%}
+.tab{width:100%;min-width:0;min-height:66px;white-space:normal;text-align:center;line-height:1.25;padding:12px 7px;font-weight:650;overflow-wrap:anywhere;border-radius:16px;background:var(--card)}
+.tab-add{font-size:31px;font-weight:400;border-style:dashed;color:var(--accent)}
+.tab:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+@media(max-width:760px){.tabs{margin-top:16px;gap:8px}.tab{min-height:68px;font-size:clamp(12px,3.4vw,16px)}}
+.slipbox{padding:15px;border:1px dashed var(--line);border-radius:16px;margin:16px 0;background:var(--card2)}.slipbox input[type=file]{font-size:13px}
+
+/* iPhone Safari: prevent native date/month inputs from expanding their grid column */
+html,body{max-width:100%;overflow-x:hidden}
+.app,.page,.card,.two,.grid,.filters,.filters>*,.two>*,.grid>*{min-width:0;max-width:100%}
+input,select,textarea{display:block;min-width:0;max-width:100%;width:100%;font-size:16px}
+input[type="date"],input[type="month"]{-webkit-appearance:none;appearance:none;min-height:48px;line-height:normal;text-align:left}
+input[type="date"]::-webkit-date-and-time-value,input[type="month"]::-webkit-date-and-time-value{text-align:left;min-width:0}
+input[type="date"]::-webkit-datetime-edit,input[type="month"]::-webkit-datetime-edit{min-width:0;padding:0}
+@media(max-width:760px){.two,.grid,.filters{grid-template-columns:minmax(0,1fr)}.card{width:100%;min-width:0}.row{min-width:0}.row-right{max-width:52%}}
+
+
+/* Smart Assistant */
+.chat-wrap{max-width:850px;margin:auto}.chat-feed{display:flex;flex-direction:column;gap:12px;min-height:290px;max-height:55vh;overflow:auto;padding:14px 2px}.chat-bubble{max-width:95%;border-radius:18px;padding:13px 15px;background:var(--card2);white-space:pre-wrap;overflow-wrap:anywhere}.chat-bubble.me{align-self:flex-end;background:var(--accent);color:var(--bg)}.chat-bubble.bot{align-self:flex-start}.chat-compose{display:flex;gap:8px;align-items:stretch}.chat-compose input{flex:1;min-width:0}.chat-compose button{width:auto;min-width:62px}.chat-review{border:1px solid var(--line);padding:12px;border-radius:14px;margin-top:10px}.chat-review input,.chat-review select{margin:6px 0 10px}.chat-choices{display:grid;grid-template-columns:1fr 1fr;gap:8px}.chat-choices button{padding:11px 5px}.chat-file{margin-top:12px}.chat-small{font-size:13px;color:var(--muted);line-height:1.6}
+
+:root{--bg:#f3f5fb;--card:#ffffff;--card2:#f4f6fc;--line:#e5e9f3;--text:#20253b;--muted:#7e879e;--accent:#6864ee;--good:#19b77b;--bad:#ed677b}
+body{background:var(--bg);padding-bottom:calc(88px + env(safe-area-inset-bottom))}
+.app{max-width:1080px;padding:24px 22px 35px}.top{margin-bottom:16px}.brand{font-size:24px;letter-spacing:-.6px}.brand small{font-size:12px}
+.legacy-tabs{display:none!important}
+.card,.stat{box-shadow:0 8px 28px rgba(42,57,106,.055);border-color:var(--line);border-radius:22px}
+.card{padding:22px}.money{font-size:clamp(34px,7vw,52px)}.runway{font-size:clamp(48px,11vw,70px)}
+.primary{color:white}.tab.active{color:white}
+.v6-welcome{margin:10px 0 16px}.v6-welcome span{display:block;font-size:13px;color:var(--muted)}.v6-welcome b{display:block;font-size:21px;margin-top:4px}
+.v6-shortcuts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:18px}
+.v6-shortcuts button{min-width:0;display:flex;align-items:center;gap:9px;background:var(--card);border:1px solid var(--line);color:var(--text);border-radius:16px;padding:12px 10px;font-size:13px;font-weight:700;text-align:left}
+.ico-tile{flex:none;width:35px;height:35px;display:grid;place-items:center;border-radius:11px}
+.ico-tile.violet{background:#eeeaff;color:#7461ec}.ico-tile.amber{background:#fff1d9;color:#e5a339}.ico-tile.blue{background:#e4efff;color:#4989e5}.ico-tile.pink{background:#ffe7f1;color:#e771a0}
+[data-ico] svg{width:21px;height:21px;display:block;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.bottom-nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(100%,650px);z-index:80;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));align-items:end;gap:2px;padding:9px 10px calc(8px + env(safe-area-inset-bottom));border:1px solid var(--line);border-bottom:0;border-radius:22px 22px 0 0;background:var(--card);box-shadow:0 -8px 35px rgba(35,46,95,.1)}
+.nav-item{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;background:none;border:0;color:var(--muted);padding:7px 0 3px;min-height:49px}.nav-item.active{color:var(--accent)}.nav-item small{font-size:10px;font-weight:700}.nav-assistant .nav-orb{width:49px;height:49px;margin-top:-24px;display:grid;place-items:center;border-radius:17px;background:var(--accent);color:#fff;box-shadow:0 7px 17px rgba(94,85,220,.28)}.nav-assistant.active .nav-orb{transform:scale(1.05)}
+.row{border:1px solid var(--line)}.row-title{white-space:normal}.summary{min-width:0}.summary>*{min-width:0}
+#analytics h2{display:flex;align-items:center;gap:9px}.analytics-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:20px 0}.analytics-kpi{border:1px solid var(--line);background:var(--card2);border-radius:15px;padding:15px}.analytics-kpi small{color:var(--muted)}.analytics-kpi strong{display:block;margin-top:6px;font-size:23px}.analytics-track{height:13px;border-radius:20px;background:var(--line);overflow:hidden;display:flex}.analytics-track i{height:100%;display:block}.analytics-legend{display:flex;flex-wrap:wrap;gap:14px;font-size:12px;margin-top:10px;color:var(--muted)}
+input,select,textarea{max-width:100%;min-width:0}
+@media(max-width:760px){.app{padding:20px 14px 28px}.top{margin-bottom:14px}.v6-shortcuts{grid-template-columns:repeat(2,minmax(0,1fr))}.v6-shortcuts button{font-size:12px}.card{padding:17px}.statgrid{grid-template-columns:repeat(2,minmax(0,1fr))}.stat b{font-size:clamp(15px,4vw,21px)}.row-right{max-width:50%}}
+@media(max-width:380px){.analytics-grid{grid-template-columns:1fr}.v6-shortcuts button{padding:9px 6px}}
 </style>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-title" content="Runway Finance">
@@ -54,18 +96,25 @@ input[type=range]{padding:0;border:0;background:transparent}
 <div class="app">
   <div class="top">
     <div class="brand">Runway Finance<small>Personal cash-flow tracker for freelance life</small></div>
-    <div class="tabs">
+    <div class="tabs legacy-tabs" aria-hidden="true">
       <button class="tab active" data-page="home">ภาพรวม</button>
       <button class="tab" data-page="fixed">รายจ่ายประจำ</button>
       <button class="tab" data-page="transactions">รายการ</button>
       <button class="tab" data-page="pendingPage">เงินรอรับ</button>
       <button class="tab" data-page="history">ประวัติรายรับ</button>
       <button class="tab" data-page="settings">ธีม</button>
+      <button class="tab tab-add" type="button" id="quickAdd" aria-label="Runway Assistant">✦</button>
     </div>
   </div>
 
   <main>
-    <section id="home" class="page active">
+    <section id="home" class="page active"><div class="v6-welcome"><span>ภาพรวมการเงินของคุณ</span><b>Financial Overview</b></div>
+<div class="v6-shortcuts">
+<button type="button" data-go="fixed"><span class="ico-tile violet" data-ico="calendar"></span>รายจ่ายประจำ</button>
+<button type="button" data-go="pendingPage"><span class="ico-tile amber" data-ico="clock"></span>เงินรอรับ</button>
+<button type="button" data-go="history"><span class="ico-tile blue" data-ico="history"></span>ประวัติรายรับ</button>
+<button type="button" data-go="assistant"><span class="ico-tile pink" data-ico="scan"></span>สแกนสลิป</button>
+</div>
       <div>
         <div class="card">
           <div class="summary">
@@ -131,7 +180,7 @@ input[type=range]{padding:0;border:0;background:transparent}
     <section id="transactions" class="page">
       <div class="two">
         <form id="entryForm" class="card">
-          <h2>+ เพิ่มรายการ</h2>
+          <h2>+ เพิ่มรายการ</h2><div class="slipbox"><h2>📷 สแกนสลิป</h2><p class="hint">อ่านเฉพาะวันที่และจำนวนเงิน • คุณเลือกประเภทรายการเอง • ตรวจสอบก่อนบันทึก</p><label for="slipImage">เลือกรูปสลิปจากเครื่อง</label><input id="slipImage" type="file" accept="image/*"><img id="slipPreview" alt="ตัวอย่างสลิป" style="display:none;max-width:100%;max-height:220px;object-fit:contain;margin-top:10px;border-radius:12px"><button id="scanSlip" class="secondary" type="button" style="margin-top:10px;width:100%">อ่านวันที่และจำนวนเงิน</button><div id="slipStatus" class="hint" role="status" aria-live="polite" style="margin-top:10px"></div><div class="hint" style="margin-top:6px">การสแกนครั้งแรกต้องเชื่อมต่ออินเทอร์เน็ตเพื่อโหลด OCR และภาษาไทย/อังกฤษ ภาพจะประมวลผลในเบราว์เซอร์ ไม่ได้ส่งไปยังเซิร์ฟเวอร์ของแอป</div></div>
           <div class="muted">รายรับจะบวกเข้าเงินสดทันที ส่วนรายจ่ายและการลงทุนจะหักออก</div>
           <label for="type">ประเภท</label>
           <select id="type">
@@ -141,7 +190,7 @@ input[type=range]{padding:0;border:0;background:transparent}
           <label for="amount">จำนวนเงิน</label>
           <input id="amount" required type="number" min="0.01" step="0.01" placeholder="0">
           <label for="note">ชื่อรายการ</label>
-          <input id="note" required maxlength="60" placeholder="เช่น ค่างาน, ประกันรถ, NVDA">
+          <input id="note" maxlength="60" placeholder="ไม่ระบุ (ค่าเริ่มต้น: -)"><div class="hint">เว้นว่างได้ ระบบจะใส่เครื่องหมาย - ให้อัตโนมัติ</div>
           <label for="date">วันที่</label>
           <input id="date" required type="date">
           <div id="formMsg" class="notice"></div>
@@ -230,7 +279,9 @@ input[type=range]{padding:0;border:0;background:transparent}
       </div>
     </section>
 
-    <section id="settings" class="page">
+    <section id="analytics" class="page">
+<div class="card"><h2><span data-ico="chart"></span> วิเคราะห์การเงิน</h2><p class="muted">สรุปข้อมูลจากรายการที่บันทึกในเครื่อง</p>
+<div id="analyticsContent"></div></div></section><section id="settings" class="page">
       <div class="two">
         <div class="card">
           <h2>ธีมแอป</h2>
@@ -260,6 +311,16 @@ input[type=range]{padding:0;border:0;background:transparent}
       </div>
     </section>
 
+
+<section id="assistant" class="page">
+ <div class="card chat-wrap">
+  <div class="summary"><div><h2>✦ Runway Assistant</h2><div class="muted">Smart Chat • ไทย / English • ไม่ใช้ AI API</div></div><button class="secondary" type="button" id="chatClear">ล้างแชท</button></div>
+  <div id="chatFeed" class="chat-feed" aria-live="polite"></div>
+  <div class="chat-compose"><input id="chatInput" type="text" placeholder="เช่น จ่ายค่าข้าว 150 / income 3000" autocomplete="off"><button class="primary" id="chatSend" type="button">ส่ง ➤</button></div>
+  <div class="chat-file"><label for="chatFiles">📎 ส่งสลิป (เลือกได้หลายภาพ)</label><input id="chatFiles" type="file" accept="image/*" multiple></div>
+  <p class="chat-small">พิมพ์ “ยอดเงิน”, “รายจ่ายเดือนนี้”, “runway”, “help” ได้ • สลิปอ่านเฉพาะวันที่และจำนวนเงินด้วย OCR ไทย/อังกฤษ • ตรวจสอบและเลือกประเภทก่อนบันทึกทุกครั้ง • ข้อมูลเก็บในเครื่อง</p>
+ </div>
+</section>
   </main>
 </div>
 
@@ -275,6 +336,7 @@ let historyMode='all';
 
 const THEME_DEFAULT={name:'midnight',bg:'#0c0d10',card:'#15171c',card2:'#1b1e24',line:'#2a2e37',text:'#f5f6f8',muted:'#9298a5',accent:'#8fa8ff',radius:20,font:16};
 const THEME_PRESETS=[
+ {name:'cloud',label:'Cloud Violet',bg:'#f3f5fb',card:'#ffffff',card2:'#f4f6fc',line:'#e5e9f3',text:'#20253b',muted:'#7e879e',accent:'#6864ee'},
  {name:'midnight',label:'Midnight Blue',bg:'#0c0d10',card:'#15171c',card2:'#1b1e24',line:'#2a2e37',text:'#f5f6f8',muted:'#9298a5',accent:'#8fa8ff'},
  {name:'rose',label:'Rose Wallet',bg:'#160f12',card:'#21161b',card2:'#2b1d23',line:'#463039',text:'#fff7f8',muted:'#b99ba5',accent:'#ef8f9e'},
  {name:'mint',label:'Mint Money',bg:'#0b1210',card:'#111c18',card2:'#182721',line:'#294239',text:'#f2fff9',muted:'#91afa2',accent:'#72d5ad'},
@@ -404,9 +466,10 @@ function setupHistoryYears(){
 
 function showPage(id){
   document.querySelectorAll('.page').forEach(x=>x.classList.toggle('active',x.id===id));
-  document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x.dataset.page===id));
+  document.querySelectorAll('.tab[data-page]').forEach(x=>x.classList.toggle('active',x.dataset.page===id));
 }
-document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>showPage(b.dataset.page)));
+document.querySelectorAll('.tab[data-page]').forEach(b=>b.addEventListener('click',()=>showPage(b.dataset.page)));
+$('quickAdd').addEventListener('click',()=>{showPage('assistant');$('chatInput').focus();});
 document.querySelectorAll('.goto-fixed').forEach(b=>b.addEventListener('click',()=>showPage('fixed')));
 
 $('includePending').addEventListener('change',render);
@@ -423,7 +486,7 @@ $('fixedList').addEventListener('click',e=>{
 });
 
 $('entryForm').addEventListener('submit',e=>{
-  e.preventDefault();const amount=Number($('amount').value),note=$('note').value.trim(),date=$('date').value;
+  e.preventDefault();const amount=Number($('amount').value),note=$('note').value.trim()||'-',date=$('date').value;
   if(!(amount>0)||!note||!date){$('formMsg').textContent='กรอกข้อมูลให้ครบ';return;}
   const entryType=$('type').value;
   state.items.push({id:Date.now()+Math.random(),type:entryType,amount,note,date});
@@ -553,7 +616,7 @@ $('themeFont').addEventListener('input',()=>{$('themeFontValue').textContent=$('
 $('resetTheme').addEventListener('click',()=>{state.theme={...THEME_DEFAULT};save();applyTheme();renderThemeSettings();});
 
 const d=new Date();$('date').value=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
-load();applyTheme();render();renderThemeSettings();
+load();if(!state.theme){state.theme={name:'cloud',bg:'#f3f5fb',card:'#ffffff',card2:'#f4f6fc',line:'#e5e9f3',text:'#20253b',muted:'#7e879e',accent:'#6864ee',radius:22,font:16};save();}applyTheme();render();renderThemeSettings();
 </script>
 
 <script>
@@ -564,5 +627,108 @@ if ('serviceWorker' in navigator && location.protocol !== 'file:') {
 }
 </script>
 
+<script>
+(function(){
+const $s=id=>document.getElementById(id);
+let selectedFile=null;
+$s('slipImage').addEventListener('change',e=>{selectedFile=e.target.files[0]||null;$s('slipStatus').textContent='';if(selectedFile){$s('slipPreview').src=URL.createObjectURL(selectedFile);$s('slipPreview').style.display='block';}});
+function loadOCR(){return new Promise((resolve,reject)=>{if(window.Tesseract)return resolve();const s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js';s.onload=resolve;s.onerror=()=>reject(Error('โหลดระบบอ่านสลิปไม่สำเร็จ ตรวจสอบอินเทอร์เน็ต'));document.head.appendChild(s);});}
+function amountFromText(text){const lines=text.split(/\n/);const moneyRx=/(?:฿|THB|บาท|จำนวนเงิน|ยอดเงิน|amount|total|โอนเงิน|ยอดโอน)/i;const numRx=/(?:\d{1,3}(?:,\d{3})+|\d{2,7})(?:\.\d{2})?/g;const candidates=[];for(let i=0;i<lines.length;i++){const line=lines[i];const context=lines.slice(Math.max(0,i-1),Math.min(lines.length,i+2)).join(' ');for(const m of line.matchAll(numRx)){const v=Number(m[0].replace(/,/g,''));if(v>0&&v<1e9)candidates.push({v,score:(moneyRx.test(line)?5:moneyRx.test(context)?2:0)+(m[0].includes('.')?2:0)+(m[0].includes(',')?1:0)});}}candidates.sort((a,b)=>b.score-a.score);return candidates[0]?.v||null;}
+function dateFromText(text){let m=text.match(/(\d{1,2})\s*[\/\-.]\s*(\d{1,2})\s*[\/\-.]\s*(25\d{2}|20\d{2}|\d{2})/);if(!m){const months={'ม.ค.':1,'ก.พ.':2,'มี.ค.':3,'เม.ย.':4,'พ.ค.':5,'มิ.ย.':6,'ก.ค.':7,'ส.ค.':8,'ก.ย.':9,'ต.ค.':10,'พ.ย.':11,'ธ.ค.':12};const mm=text.match(/(\d{1,2})\s*(ม\.?ค\.?|ก\.?พ\.?|มี\.?ค\.?|เม\.?ย\.?|พ\.?ค\.?|มิ\.?ย\.?|ก\.?ค\.?|ส\.?ค\.?|ก\.?ย\.?|ต\.?ค\.?|พ\.?ย\.?|ธ\.?ค\.?)\s*(25\d{2}|20\d{2}|\d{2})/);if(mm){let mon=mm[2].replace(/\./g,'');let lookup={'มค':1,'กพ':2,'มีค':3,'เมย':4,'พค':5,'มิย':6,'กค':7,'สค':8,'กย':9,'ตค':10,'พย':11,'ธค':12};m=[null,mm[1],lookup[mon],mm[3]];}}if(!m)return null;let day=+m[1],month=+m[2],year=+m[3];if(year>2400)year-=543;else if(year<100)year+=year>50?1957:2000;if(month<1||month>12||day<1||day>31)return null;const d=new Date(year,month-1,day);if(d.getFullYear()!==year||d.getMonth()!==month-1||d.getDate()!==day)return null;return `${year}-${String(month).padStart(2,'0')}-${String(day).padStart(2,'0')}`;}
+$s('scanSlip').addEventListener('click',async()=>{if(!selectedFile){$s('slipStatus').textContent='กรุณาเลือกรูปสลิปก่อน';return;}const btn=$s('scanSlip');btn.disabled=true;try{$s('slipStatus').textContent='กำลังโหลด OCR...';await loadOCR();const worker=await Tesseract.createWorker('tha+eng',1,{logger:m=>{if(m.status==='recognizing text')$s('slipStatus').textContent='กำลังอ่านสลิป '+Math.round(m.progress*100)+'%';}});let text='';try{const result=await worker.recognize(selectedFile);text=result.data.text||'';}finally{await worker.terminate();}const amount=amountFromText(text),date=dateFromText(text);if(amount)$s('amount').value=amount;if(date)$s('date').value=date;$s('slipStatus').textContent=`อ่านเสร็จ: ${amount?'จำนวนเงิน ฿'+amount.toLocaleString('th-TH'):'ไม่พบจำนวนเงิน'} / ${date?'วันที่ '+date:'ไม่พบวันที่'} — กรุณาตรวจสอบและเลือกประเภทก่อนกดเพิ่มรายการ`; }catch(err){$s('slipStatus').textContent='สแกนไม่สำเร็จ: '+err.message+' — สามารถกรอกเองได้';}finally{btn.disabled=false;}});
+})();
+</script>
+
+<script>
+(function(){
+ const feed=document.getElementById('chatFeed'), input=document.getElementById('chatInput');
+ const safe=window.esc||((x)=>String(x).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])));
+ const fmt=window.money||((n)=>'฿'+Number(n).toLocaleString('th-TH'));
+ const today=()=>{let d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`};
+ const types=[['income','รายรับ / Income'],['expense','รายจ่าย / Expense'],['investment','ลงทุน / Investment'],['pending','เงินรอรับ / Pending']];
+ let drafts=new Map(),seq=0;
+ function say(msg,me=false){let d=document.createElement('div');d.className='chat-bubble '+(me?'me':'bot');d.textContent=msg;feed.appendChild(d);feed.scrollTop=feed.scrollHeight;return d;}
+ function cleanNumber(s){return Number(String(s).replace(/,/g,''));}
+ function parseCommand(text){
+   let t=text.trim();let m=t.match(/(?:฿|THB|บาท|baht)?\s*(\d{1,3}(?:,\d{3})+(?:\.\d{1,2})?|\d+(?:\.\d{1,2})?)\s*(?:บาท|baht|THB|฿)?/i);
+   if(!m)return null;let amount=cleanNumber(m[1]);if(!(amount>0)||amount>1e9)return null;
+   let type=null;
+   if(/(?:รายรับ|ได้เงิน|รับเงิน|เงินเข้า|ค่าจ้าง|income|received|earned|salary|paid me)/i.test(t))type='income';
+   else if(/(?:รายจ่าย|จ่าย|ซื้อ|เสียเงิน|expense|spent|spend|paid for|buy|bought|cost)/i.test(t))type='expense';
+   else if(/(?:ลงทุน|investment|invest|stock|หุ้น)/i.test(t))type='investment';
+   else if(/(?:รอรับ|ค้างจ่าย|pending|receivable)/i.test(t))type='pending';
+   let note=t.replace(m[0],'').replace(/(?:รายรับ|ได้เงิน|รับเงิน|เงินเข้า|income|received|earned|salary|รายจ่าย|จ่าย|ซื้อ|เสียเงิน|expense|spent|spend|paid for|buy|bought|cost|ลงทุน|investment|invest|รอรับ|pending)/ig,'').trim()||'-';
+   return {amount,date:today(),note,type};
+ }
+ function review(d){let id=String(++seq);drafts.set(id,d);let box=document.createElement('div');box.className='chat-bubble bot';box.innerHTML=`<b>ตรวจสอบรายการก่อนบันทึก / Review</b><div class="chat-review"><label>ประเภท / Type</label><select class="d-type"><option value="">— เลือกประเภท / Choose type —</option>${types.map(([v,l])=>`<option value="${v}" ${d.type===v?'selected':''}>${l}</option>`).join('')}</select><label>จำนวนเงิน / Amount</label><input class="d-amount" type="number" min="0.01" step="0.01" value="${d.amount||''}"><label>วันที่ / Date</label><input class="d-date" type="date" value="${d.date||today()}"><label>ชื่อรายการ / Note</label><input class="d-note" maxlength="60" value="${safe(d.note||'-')}"><div class="chat-choices"><button class="primary d-save" type="button">✓ บันทึก / Save</button><button class="secondary d-cancel" type="button">ยกเลิก / Cancel</button></div><div class="chat-small d-error"></div></div>`;
+  feed.appendChild(box);feed.scrollTop=feed.scrollHeight;
+  box.querySelector('.d-cancel').onclick=()=>{drafts.delete(id);box.remove();say('ยกเลิกรายการแล้ว / Cancelled')};
+  box.querySelector('.d-save').onclick=()=>{let type=box.querySelector('.d-type').value,amount=Number(box.querySelector('.d-amount').value),date=box.querySelector('.d-date').value,note=box.querySelector('.d-note').value.trim()||'-';
+    if(!type||!(amount>0)||!date){box.querySelector('.d-error').textContent='กรุณาเลือกประเภท จำนวนเงิน และวันที่ / Check required fields';return;}
+    state.items.push({id:Date.now()+Math.random(),type,amount,date,note});save();render();drafts.delete(id);box.remove();say('✓ บันทึกสำเร็จ / Saved: '+fmt(amount)+' • '+(types.find(x=>x[0]===type)||[])[1]);
+  };
+ }
+ function respond(t){let l=t.toLowerCase();
+  if(/^(help|ช่วย|วิธีใช้|คำสั่ง)/i.test(t))return say('ตัวอย่าง / Examples:\n• จ่ายค่าข้าว 150\n• ได้ค่าจ้าง 30000\n• expense lunch 120\n• income freelance 5000\n• ลงทุน 2000\n• ยอดเงิน / balance\n• รายจ่ายเดือนนี้ / expenses this month\n• runway\nหรือแนบภาพสลิปได้เลย');
+  let totalsNow=totals(),cash=Math.max(0,totalsNow.income-totalsNow.expense-totalsNow.investment);
+  if(/^(ยอดเงิน|เงินคงเหลือ|balance|cash|เหลือเท่าไหร่)/i.test(t))return say('เงินที่ใช้ได้จริง / Available cash: '+fmt(cash)+'\n(ไม่รวมเงินรอรับและมูลค่าหุ้น)');
+  if(/^(runway|อยู่ได้อีก|อยู่ได้กี่เดือน)/i.test(t)){let fixed=fixedTotal();return say(fixed>0?'Runway: '+(cash/fixed).toFixed(1)+' เดือน / months\nรายจ่ายประจำ '+fmt(fixed)+'/เดือน':'กรุณากำหนดรายจ่ายประจำก่อน / Set monthly fixed expenses first');}
+  if(/^(รายจ่ายเดือนนี้|expenses this month|monthly expenses|รายรับเดือนนี้|income this month)/i.test(t)){let month=today().slice(0,7),isIncome=/รายรับ|income/i.test(t),sum=state.items.filter(x=>x.date?.startsWith(month)&&x.type===(isIncome?'income':'expense')).reduce((a,x)=>a+Number(x.amount),0);return say((isIncome?'รายรับ / Income':'รายจ่าย / Expenses')+' เดือนนี้: '+fmt(sum));}
+  let d=parseCommand(t);if(d){say('พบจำนวนเงิน / Detected: '+fmt(d.amount));return review(d);}
+  say('ยังไม่เข้าใจคำสั่งนี้ / Command not recognized\nลอง: “จ่ายค่าข้าว 150”, “income 5000” หรือพิมพ์ help');
+ }
+ function send(){let t=input.value.trim();if(!t)return;input.value='';say(t,true);respond(t);}
+ document.getElementById('chatSend').onclick=send;input.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();send()}});
+ document.getElementById('chatClear').onclick=()=>{feed.innerHTML='';drafts.clear();say('สวัสดี! ส่งสลิป หรือพิมพ์รายรับรายจ่ายได้เลย\nHello! Upload slips or type transactions.');};
+ function detectAmount(text){let lines=text.split(/\n/),a=[];for(let i=0;i<lines.length;i++){let line=lines[i],near=lines.slice(Math.max(0,i-1),i+2).join(' ');for(let m of line.matchAll(/(?:\d{1,3}(?:,\d{3})+|\d{2,8})(?:\.\d{2})?/g)){let n=cleanNumber(m[0]);if(n>0&&n<1e9)a.push({n,score:(/amount|total|บาท|จำนวนเงิน|ยอดเงิน|THB|฿/i.test(line)?6:0)+(/amount|total|บาท|จำนวนเงิน|ยอดเงิน|THB|฿/i.test(near)?2:0)+(m[0].includes('.')?2:0)+(m[0].includes(',')?1:0)})}}a.sort((x,y)=>y.score-x.score);return a[0]?.n||null;}
+ function detectDate(text){let m=text.match(/(\d{1,2})\s*[\/\-.]\s*(\d{1,2})\s*[\/\-.]\s*(25\d{2}|20\d{2}|\d{2})/);let day,month,year;
+  if(m){day=+m[1];month=+m[2];year=+m[3];}else{let en={'jan':1,'feb':2,'mar':3,'apr':4,'may':5,'jun':6,'jul':7,'aug':8,'sep':9,'oct':10,'nov':11,'dec':12},th={'มค':1,'กพ':2,'มีค':3,'เมย':4,'พค':5,'มิย':6,'กค':7,'สค':8,'กย':9,'ตค':10,'พย':11,'ธค':12};let x=text.match(/(\d{1,2})\s*(ม\.?ค\.?|ก\.?พ\.?|มี\.?ค\.?|เม\.?ย\.?|พ\.?ค\.?|มิ\.?ย\.?|ก\.?ค\.?|ส\.?ค\.?|ก\.?ย\.?|ต\.?ค\.?|พ\.?ย\.?|ธ\.?ค\.?|Jan(?:uary)?|Feb(?:ruary)?|Mar(?:ch)?|Apr(?:il)?|May|Jun(?:e)?|Jul(?:y)?|Aug(?:ust)?|Sep(?:tember)?|Oct(?:ober)?|Nov(?:ember)?|Dec(?:ember)?)\s*(25\d{2}|20\d{2}|\d{2})/i);if(!x)return null;day=+x[1];month=th[x[2].replace(/\./g,'')]||en[x[2].slice(0,3).toLowerCase()];year=+x[3];}
+  if(year>2400)year-=543;else if(year<100)year+=year>=50?1900:2000;let d=new Date(year,month-1,day);if(d.getFullYear()!==year||d.getMonth()!==month-1||d.getDate()!==day)return null;return `${year}-${String(month).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
+ }
+ async function ocr(file){if(!window.Tesseract){await new Promise((resolve,reject)=>{let s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js';s.onload=resolve;s.onerror=reject;document.head.appendChild(s);});}let worker=await Tesseract.createWorker('tha+eng');try{return (await worker.recognize(file)).data.text||''}finally{await worker.terminate()}}
+ document.getElementById('chatFiles').addEventListener('change',async e=>{let files=Array.from(e.target.files||[]);e.target.value='';for(let file of files){say('📎 '+file.name,true);let status=say('กำลังอ่านสลิป / Scanning...');try{let text=await ocr(file),amount=detectAmount(text),date=detectDate(text);status.textContent='อ่านสลิปแล้ว / Scan complete\n'+(amount?'จำนวนเงิน: '+fmt(amount):'⚠ ไม่พบจำนวนเงิน')+'\n'+(date?'วันที่: '+date:'⚠ ไม่พบวันที่ — ใช้วันที่วันนี้ กรุณาตรวจสอบ');review({amount:amount||'',date:date||today(),note:'-',type:null});}catch(err){status.textContent='สแกนไม่สำเร็จ / OCR failed. Check connection and try again.';}}});
+ say('สวัสดี! ส่งสลิป หรือพิมพ์รายรับรายจ่ายได้เลย\nHello! Upload slips or type transactions.');
+})();
+</script>
+<nav class="bottom-nav" aria-label="เมนูหลัก">
+<button class="nav-item active" data-target="home" type="button"><span data-ico="home"></span><small>หน้าแรก</small></button>
+<button class="nav-item" data-target="transactions" type="button"><span data-ico="list"></span><small>รายการ</small></button>
+<button class="nav-item nav-assistant" data-target="assistant" type="button"><span class="nav-orb" data-ico="sparkles"></span><small>Assistant</small></button>
+<button class="nav-item" data-target="analytics" type="button"><span data-ico="chart"></span><small>วิเคราะห์</small></button>
+<button class="nav-item" data-target="settings" type="button"><span data-ico="settings"></span><small>ตั้งค่า</small></button>
+</nav>
+<script>
+(function(){
+const icons={
+home:'<path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z"/>',
+list:'<rect x="3" y="4" width="18" height="16" rx="3"/><path d="M8 9h9M8 14h9"/><path d="M6 9h.01M6 14h.01"/>',
+sparkles:'<path d="m12 3 1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/><path d="m19 17 .7 1.3L21 19l-1.3.7L19 21l-.7-1.3L17 19l1.3-.7z"/>',
+chart:'<path d="M3 3v18h18"/><path d="m7 16 4-5 3 2 5-7"/>',
+settings:'<circle cx="12" cy="12" r="3"/><path d="M12 2v2m0 16v2M4.9 4.9l1.4 1.4m11.4 11.4 1.4 1.4M2 12h2m16 0h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>',
+calendar:'<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 3v4M17 3v4M3 10h18"/>',
+clock:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+history:'<path d="M3 12a9 9 0 1 1 2.5 6.2M3 5v7h7"/><path d="M12 7v5l4 2"/>',
+scan:'<path d="M8 3H5a2 2 0 0 0-2 2v3M16 3h3a2 2 0 0 1 2 2v3M3 16v3a2 2 0 0 0 2 2h3M21 16v3a2 2 0 0 1-2 2h-3M5 12h14"/>'
+};
+document.querySelectorAll('[data-ico]').forEach(el=>{let p=icons[el.dataset.ico];if(p)el.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true">'+p+'</svg>';});
+function go(id){
+ if(typeof showPage==='function')showPage(id);
+ document.querySelectorAll('.nav-item').forEach(el=>el.classList.toggle('active',el.dataset.target===id));
+ if(id==='analytics')updateAnalytics();
+ window.scrollTo({top:0,behavior:'instant'});
+}
+document.querySelectorAll('[data-target]').forEach(b=>b.addEventListener('click',()=>go(b.dataset.target)));
+document.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=>go(b.dataset.go)));
+function updateAnalytics(){
+ const out=document.getElementById('analyticsContent');if(!out)return;
+ const all=Array.isArray(state.items)?state.items:[];
+ const sum=t=>all.filter(x=>x.type===t).reduce((a,x)=>a+(Number(x.amount)||0),0);
+ const inc=sum('income'),exp=sum('expense'),inv=sum('investment'),pending=sum('pending');
+ const total=inc+exp+inv||1;const money=n=>'฿'+Math.round(n).toLocaleString('th-TH');
+ const blocks=[['รายรับ',inc,'#20bb8b'],['รายจ่าย',exp,'#f4778c'],['ลงทุน',inv,'#7169ef'],['เงินรอรับ',pending,'#eab251']];
+ out.innerHTML='<div class="analytics-grid">'+blocks.map(x=>'<div class="analytics-kpi"><small>'+x[0]+'</small><strong>'+money(x[1])+'</strong></div>').join('')+'</div><h3>สัดส่วนรายการที่บันทึก</h3><div class="analytics-track">'+blocks.slice(0,3).map(x=>'<i style="width:'+(x[1]/total*100)+'%;background:'+x[2]+'"></i>').join('')+'</div><div class="analytics-legend">'+blocks.slice(0,3).map(x=>'<span style="color:'+x[2]+'">●</span> '+x[0]).join('　')+'</div><p class="hint">คำนวณจากข้อมูลที่บันทึกทั้งหมด ไม่รวมเงินรอรับในสัดส่วน</p>';
+}
+})();
+</script>
 </body>
 </html>

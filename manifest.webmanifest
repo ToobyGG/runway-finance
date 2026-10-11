@@ -1,12 +1,11 @@
 {
   "name": "Runway Finance",
   "short_name": "Runway",
-  "description": "Personal financial runway tracker",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#0b1020",
-  "theme_color": "#0b1020",
+  "background_color": "#f3f5fb",
+  "theme_color": "#6864ee",
   "icons": [
     {
       "src": "icon-192.png",
