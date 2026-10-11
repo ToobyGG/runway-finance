@@ -76,6 +76,85 @@ body{background:var(--bg);padding-bottom:calc(88px + env(safe-area-inset-bottom)
 input,select,textarea{max-width:100%;min-width:0}
 @media(max-width:760px){.app{padding:20px 14px 28px}.top{margin-bottom:14px}.v6-shortcuts{grid-template-columns:repeat(2,minmax(0,1fr))}.v6-shortcuts button{font-size:12px}.card{padding:17px}.statgrid{grid-template-columns:repeat(2,minmax(0,1fr))}.stat b{font-size:clamp(15px,4vw,21px)}.row-right{max-width:50%}}
 @media(max-width:380px){.analytics-grid{grid-template-columns:1fr}.v6-shortcuts button{padding:9px 6px}}
+
+/* V7: soft gradients and compact history */
+body{background:radial-gradient(ellipse 90% 45% at 6% -5%,color-mix(in srgb,var(--accent) 15%,transparent),transparent 75%),radial-gradient(ellipse 70% 45% at 100% 45%,#b4d7fa33,transparent 78%),var(--bg);background-attachment:fixed}
+.v6-welcome{padding:12px 2px}.v6-welcome b{background:linear-gradient(110deg,var(--accent),#9c7bee,#40b9d7);background-clip:text;-webkit-background-clip:text;color:transparent}
+#home>.grid>.card:first-child{background:linear-gradient(145deg,color-mix(in srgb,var(--accent) 12%,var(--card)),var(--card) 58%,color-mix(in srgb,#58d2d0 9%,var(--card)));border-color:color-mix(in srgb,var(--accent) 15%,var(--line))}
+.primary,.nav-assistant .nav-orb,.bar>div,.quick button.active{background:linear-gradient(125deg,var(--accent),#9a76f0 62%,#63b8e7);color:#fff}
+.nav-assistant .nav-orb{box-shadow:0 7px 22px color-mix(in srgb,var(--accent) 30%,transparent)}
+.v6-shortcuts button{background:linear-gradient(145deg,var(--card),color-mix(in srgb,var(--accent) 4%,var(--card)));transition:transform .15s}.v6-shortcuts button:active{transform:scale(.98)}
+/* history rows: one-line summary, details on tap */
+#entries,#historyList,#pendingPageList,#fixedList{gap:6px}
+#entries .row,#historyList .row,#pendingPageList .row,#fixedList .row{padding:10px 12px;border-radius:12px;gap:8px;min-height:54px;background:color-mix(in srgb,var(--card2) 74%,var(--card))}
+#entries .row-main,#historyList .row-main,#pendingPageList .row-main,#fixedList .row-main{flex:1;min-width:0}
+#entries .row-title,#historyList .row-title,#pendingPageList .row-title,#fixedList .row-title{font-size:13px;line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#entries .row-meta,#historyList .row-meta,#pendingPageList .row-meta,#fixedList .row-meta{font-size:10px;margin-top:3px;line-height:1.2}
+#entries .row-right,#historyList .row-right,#pendingPageList .row-right,#fixedList .row-right{flex-shrink:0;max-width:49%;font-size:13px}
+#entries .row-right b,#historyList .row-right b,#pendingPageList .row-right b,#fixedList .row-right b{font-size:13px}
+#entries .delete,#pendingPageList .delete,#fixedList .delete{font-size:10px}
+#entries .row .secondary,#pendingPageList .row .secondary{font-size:11px!important;padding:5px 7px!important;margin-top:4px!important}
+#historyList .row:nth-child(even),#entries .row:nth-child(even){background:var(--card)}
+@media(max-width:480px){#entries .row,#historyList .row,#pendingPageList .row,#fixedList .row{padding:9px 10px}#entries .row-right,#historyList .row-right{max-width:45%}.summary strong{font-size:clamp(19px,6vw,30px)}}
+
+
+.modal-lock{overflow:hidden!important}
+.modal-layer{position:fixed;inset:0;z-index:1000;pointer-events:none;visibility:hidden}
+.modal-layer.open{visibility:visible;pointer-events:auto}
+.modal-backdrop{position:absolute;inset:0;background:rgba(15,20,45,.42);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);opacity:0;transition:opacity .25s}
+.modal-layer.open .modal-backdrop{opacity:1}
+.modal-panel{position:absolute;bottom:0;left:50%;width:min(100%,640px);max-height:93dvh;transform:translate(-50%,105%);background:var(--bg);border-radius:26px 26px 0 0;box-shadow:0 -15px 70px rgba(0,0,0,.19);padding:24px 14px max(20px,env(safe-area-inset-bottom));transition:transform .36s cubic-bezier(.2,.9,.3,1);overflow:hidden;outline:none}
+.modal-layer.open .modal-panel{transform:translate(-50%,0)}
+.modal-handle{position:absolute;top:9px;left:50%;transform:translateX(-50%);height:5px;width:43px;border-radius:10px;background:var(--line)}
+.modal-close{position:absolute;top:16px;right:18px;z-index:2;background:var(--card2);color:var(--text);border:1px solid var(--line);width:36px;height:36px;border-radius:50%;padding:0}
+.modal-content{max-height:calc(93dvh - 46px - env(safe-area-inset-bottom));overflow-y:auto;overscroll-behavior:contain;padding-top:24px;-webkit-overflow-scrolling:touch}
+.modal-content .page{display:block!important}.modal-content .two{grid-template-columns:1fr}.modal-content .card{box-shadow:none}
+.modal-content #entryForm{display:block!important;margin:0}
+.modal-panel.full-chat{height:calc(100dvh - env(safe-area-inset-top));max-height:none;border-radius:22px 22px 0 0}
+.modal-panel.full-chat .modal-content{height:100%;max-height:none;display:flex;flex-direction:column}.modal-panel.full-chat #assistant{height:100%}.modal-panel.full-chat .chat-wrap{height:100%;display:flex;flex-direction:column}.modal-panel.full-chat .chat-feed{flex:1;min-height:150px;overflow:auto}
+
+@media(min-width:900px){.modal-panel{bottom:50%;transform:translate(-50%,calc(50% + 100vh));border-radius:24px;max-height:85vh}.modal-layer.open .modal-panel{transform:translate(-50%,50%)}.modal-panel.full-chat{height:80vh;max-height:80vh;border-radius:24px}}
+
+/* V14 — Dark Liquid Glass material system */
+html.theme-liquid-glass{color-scheme:dark}
+html.theme-liquid-glass body{background:var(--bg)!important;position:relative;isolation:isolate}
+html.theme-liquid-glass body::before{content:"";position:fixed;inset:-22%;z-index:-1;pointer-events:none;
+ background:radial-gradient(ellipse at 18% 20%,rgba(var(--glow1),.32),transparent 44%),radial-gradient(ellipse at 82% 32%,rgba(var(--glow2),.24),transparent 43%),radial-gradient(ellipse at 50% 90%,rgba(var(--glow3),.24),transparent 48%);filter:blur(24px)}
+html.theme-liquid-glass .card,html.theme-liquid-glass .stat,html.theme-liquid-glass .v6-shortcuts button,html.theme-liquid-glass .bottom-nav,html.theme-liquid-glass .theme-preset,html.theme-liquid-glass .analytics-kpi{
+ background:linear-gradient(145deg,rgba(255,255,255,.13),rgba(255,255,255,.045) 48%,rgba(255,255,255,.075))!important;
+ border:1px solid rgba(255,255,255,.18)!important;
+ box-shadow:0 15px 38px rgba(0,0,0,.22),inset 0 1px 0 rgba(255,255,255,.17)!important;
+ -webkit-backdrop-filter:blur(26px) saturate(160%);backdrop-filter:blur(26px) saturate(160%)}
+html.theme-liquid-glass .row,html.theme-liquid-glass .preview-card,html.theme-liquid-glass .color-field,html.theme-liquid-glass .chat-bubble.bot,html.theme-liquid-glass .slipbox{
+ background:rgba(255,255,255,.07)!important;border:1px solid rgba(255,255,255,.12)!important;
+ -webkit-backdrop-filter:blur(15px);backdrop-filter:blur(15px)}
+html.theme-liquid-glass input:not([type="range"]):not([type="color"]):not([type="checkbox"]):not([type="file"]),html.theme-liquid-glass select,html.theme-liquid-glass textarea{
+ background:rgba(255,255,255,.085)!important;border:1px solid rgba(255,255,255,.19)!important;color:var(--text)!important;box-shadow:inset 0 1px 2px rgba(0,0,0,.12)}
+html.theme-liquid-glass .modal-panel{background:linear-gradient(145deg,rgba(33,39,61,.94),rgba(14,20,38,.92))!important;
+ border:1px solid rgba(255,255,255,.2)!important;-webkit-backdrop-filter:blur(38px) saturate(160%);backdrop-filter:blur(38px) saturate(160%)}
+html.theme-liquid-glass .modal-backdrop{background:rgba(1,4,13,.55);-webkit-backdrop-filter:blur(15px);backdrop-filter:blur(15px)}
+html.theme-liquid-glass .primary,html.theme-liquid-glass .nav-assistant .nav-orb,html.theme-liquid-glass .bar>div,html.theme-liquid-glass .quick button.active{
+ background:linear-gradient(125deg,var(--accent),rgba(var(--glow1),.94) 64%,rgba(var(--glow2),.88))!important;color:#090d1c!important;
+ box-shadow:0 7px 22px rgba(var(--glow1),.23),inset 0 1px 0 rgba(255,255,255,.3)}
+html.theme-liquid-glass .v6-welcome b{background:linear-gradient(100deg,var(--text),var(--accent));background-clip:text;-webkit-background-clip:text;color:transparent}
+html.theme-liquid-glass .theme-preset.active{outline:2px solid var(--accent);outline-offset:1px}
+html.theme-liquid-glass .theme-preset{min-height:90px;transition:transform .18s,border-color .18s}
+html.theme-liquid-glass .theme-preset:active{transform:scale(.97)}
+html.theme-liquid-glass .ico-tile{background:rgba(255,255,255,.10);color:var(--accent)}
+html.theme-liquid-glass .brand,html.theme-liquid-glass .row-title,html.theme-liquid-glass .money{color:var(--text)}
+html.theme-liquid-glass .chat-bubble.me{color:#0c1020}
+html.theme-liquid-glass .nav-item.active{color:var(--accent)}
+@supports not ((-webkit-backdrop-filter:blur(1px)) or (backdrop-filter:blur(1px))){html.theme-liquid-glass .card,html.theme-liquid-glass .stat,html.theme-liquid-glass .bottom-nav{background:var(--card)!important}}
+@media(prefers-reduced-transparency:reduce){html.theme-liquid-glass .card,html.theme-liquid-glass .stat,html.theme-liquid-glass .bottom-nav{background:var(--card)!important}}
+
+
+/* V17: stacked cumulative liquid bars — leftmost category always on top */
+#analytics .analytics-track{position:relative;display:block;height:15px;border-radius:999px;overflow:hidden;isolation:isolate;background:rgba(255,255,255,.10);box-shadow:inset 0 1px 3px rgba(0,0,0,.24),0 1px 7px rgba(0,0,0,.12)}
+#analytics .analytics-track i{position:absolute;top:0;left:0;display:block;height:100%;min-width:0;border-radius:999px!important;box-shadow:inset 0 1px 1px rgba(255,255,255,.30),0 1px 5px rgba(0,0,0,.10);transition:width .35s ease}
+/* Layers are ordered from left to right, with earlier categories in front. */
+#analytics .analytics-track i.layer-0{z-index:3;background:linear-gradient(90deg,#11d8a4 0%,#1bcbb1 60%,#66e0b5 100%)!important}
+#analytics .analytics-track i.layer-1{z-index:2;background:linear-gradient(90deg,#fbb1a4 0%,#f67b99 80%,#f66ca3 100%)!important}
+#analytics .analytics-track i.layer-2{z-index:1;background:linear-gradient(90deg,#7970f9 0%,#a96cf3 100%)!important}
 </style>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-title" content="Runway Finance">
@@ -109,11 +188,11 @@ input,select,textarea{max-width:100%;min-width:0}
 
   <main>
     <section id="home" class="page active"><div class="v6-welcome"><span>ภาพรวมการเงินของคุณ</span><b>Financial Overview</b></div>
-<div class="v6-shortcuts">
+<div class="v6-shortcuts" aria-label="เมนูลัด">
 <button type="button" data-go="fixed"><span class="ico-tile violet" data-ico="calendar"></span>รายจ่ายประจำ</button>
 <button type="button" data-go="pendingPage"><span class="ico-tile amber" data-ico="clock"></span>เงินรอรับ</button>
 <button type="button" data-go="history"><span class="ico-tile blue" data-ico="history"></span>ประวัติรายรับ</button>
-<button type="button" data-go="assistant"><span class="ico-tile pink" data-ico="scan"></span>สแกนสลิป</button>
+<button type="button" data-open-modal="entry"><span class="ico-tile pink" data-ico="plus"></span>เพิ่มรายการ</button>
 </div>
       <div>
         <div class="card">
@@ -147,55 +226,11 @@ input,select,textarea{max-width:100%;min-width:0}
       </div>
     </section>
 
-    <section id="fixed" class="page">
-      <div class="two">
-        <form id="fixedForm" class="card">
-          <h2>เพิ่มรายจ่ายประจำ</h2>
-          <div class="muted">ยอดรวมจะถูกใช้คำนวณ Runway อัตโนมัติ</div>
-          <label for="fixedName">ชื่อค่าใช้จ่าย</label>
-          <input id="fixedName" required maxlength="60" placeholder="เช่น ค่าเช่าห้อง">
-          <label for="fixedAmount">จำนวน / เดือน</label>
-          <input id="fixedAmount" required type="number" min="0.01" step="0.01" placeholder="0">
-          <label for="fixedCategory">หมวด</label>
-          <select id="fixedCategory">
-            <option>ที่อยู่อาศัย</option><option>อาหาร</option><option>เดินทาง / รถ</option>
-            <option>โทรศัพท์ / อินเทอร์เน็ต</option><option>Software / งาน</option>
-            <option>ประกัน</option><option>สัตว์เลี้ยง</option><option>อื่นๆ</option>
-          </select>
-          <div id="fixedMsg" class="notice"></div>
-          <button class="primary" type="submit">+ เพิ่มค่าใช้จ่าย</button>
-        </form>
 
-        <div class="card">
-          <div class="summary">
-            <div><div class="muted">รวมรายจ่ายประจำ / เดือน</div><strong id="fixedTotal">฿0</strong></div>
-            <div style="text-align:right"><div class="muted">ต่อปี</div><b id="fixedYear">฿0</b></div>
-          </div>
-          <div id="fixedEmpty" class="empty">ยังไม่มีค่าใช้จ่ายประจำ</div>
-          <div id="fixedList" class="list"></div>
-        </div>
-      </div>
-    </section>
 
     <section id="transactions" class="page">
       <div class="two">
-        <form id="entryForm" class="card">
-          <h2>+ เพิ่มรายการ</h2><div class="slipbox"><h2>📷 สแกนสลิป</h2><p class="hint">อ่านเฉพาะวันที่และจำนวนเงิน • คุณเลือกประเภทรายการเอง • ตรวจสอบก่อนบันทึก</p><label for="slipImage">เลือกรูปสลิปจากเครื่อง</label><input id="slipImage" type="file" accept="image/*"><img id="slipPreview" alt="ตัวอย่างสลิป" style="display:none;max-width:100%;max-height:220px;object-fit:contain;margin-top:10px;border-radius:12px"><button id="scanSlip" class="secondary" type="button" style="margin-top:10px;width:100%">อ่านวันที่และจำนวนเงิน</button><div id="slipStatus" class="hint" role="status" aria-live="polite" style="margin-top:10px"></div><div class="hint" style="margin-top:6px">การสแกนครั้งแรกต้องเชื่อมต่ออินเทอร์เน็ตเพื่อโหลด OCR และภาษาไทย/อังกฤษ ภาพจะประมวลผลในเบราว์เซอร์ ไม่ได้ส่งไปยังเซิร์ฟเวอร์ของแอป</div></div>
-          <div class="muted">รายรับจะบวกเข้าเงินสดทันที ส่วนรายจ่ายและการลงทุนจะหักออก</div>
-          <label for="type">ประเภท</label>
-          <select id="type">
-            <option value="income">รายรับ</option><option value="expense">รายจ่าย</option>
-            <option value="investment">การลงทุน</option><option value="pending">เงินรอรับ</option>
-          </select>
-          <label for="amount">จำนวนเงิน</label>
-          <input id="amount" required type="number" min="0.01" step="0.01" placeholder="0">
-          <label for="note">ชื่อรายการ</label>
-          <input id="note" maxlength="60" placeholder="ไม่ระบุ (ค่าเริ่มต้น: -)"><div class="hint">เว้นว่างได้ ระบบจะใส่เครื่องหมาย - ให้อัตโนมัติ</div>
-          <label for="date">วันที่</label>
-          <input id="date" required type="date">
-          <div id="formMsg" class="notice"></div>
-          <button class="primary" type="submit">เพิ่มรายการ</button>
-        </form>
+<div class="card"><div class="summary"><h2>จัดการรายการ</h2><button type="button" class="primary" data-open-modal="entry">+ เพิ่มรายการ</button></div></div>
 
         <div class="card">
           <div class="summary">
@@ -285,17 +320,17 @@ input,select,textarea{max-width:100%;min-width:0}
       <div class="two">
         <div class="card">
           <h2>ธีมแอป</h2>
-          <div class="muted">เลือกคู่สีสำเร็จรูป หรือปรับสีเองได้ การตั้งค่าจะจำไว้บนเครื่องนี้</div>
+          <div class="muted">เลือกโทนสี Liquid Glass แบบ Dark ได้ทันที โดยยังคงพื้นผิวกระจกทุกพรีเซต</div>
           <div id="themePresets" class="theme-grid"></div>
         </div>
         <div class="card">
           <div class="summary">
-            <div><h2>ปรับเอง</h2><div class="muted">เปลี่ยนแล้วเห็นผลทันที</div></div>
+            <div><h2>ปรับเอง</h2><div class="muted">ปรับสีพื้นหลัง สีการ์ด และ Accent โดยยังคงเอฟเฟกต์กระจก</div></div>
             <button id="resetTheme" class="secondary" type="button">คืนค่าเดิม</button>
           </div>
           <div class="theme-controls">
-            <div class="color-field"><label>สีพื้นหลัง</label><input id="themeBg" type="color"></div>
-            <div class="color-field"><label>สีการ์ด</label><input id="themeCard" type="color"></div>
+            <div class="color-field"><label>สีพื้นหลัง Dark</label><input id="themeBg" type="color"></div>
+            <div class="color-field"><label>สี Tint ของกระจก</label><input id="themeCard" type="color"></div>
             <div class="color-field"><label>สีหลัก / Accent</label><input id="themeAccent" type="color"></div>
           </div>
           <label>ความโค้งของการ์ด</label>
@@ -312,17 +347,63 @@ input,select,textarea{max-width:100%;min-width:0}
     </section>
 
 
-<section id="assistant" class="page">
+
+  </main>
+</div>
+
+<div id="modalStash" hidden>        <form id="entryForm" class="card">
+          <h2>+ เพิ่มรายการ</h2>
+          <div class="muted">รายรับจะบวกเข้าเงินสดทันที ส่วนรายจ่ายและการลงทุนจะหักออก</div>
+          <label for="type">ประเภท</label>
+          <select id="type">
+            <option value="income">รายรับ</option><option value="expense">รายจ่าย</option>
+            <option value="investment">การลงทุน</option><option value="pending">เงินรอรับ</option>
+          </select>
+          <label for="amount">จำนวนเงิน</label>
+          <input id="amount" required type="number" min="0.01" step="0.01" placeholder="0">
+          <label for="note">ชื่อรายการ</label>
+          <input id="note" maxlength="60" placeholder="ไม่ระบุ (ค่าเริ่มต้น: -)"><div class="hint">เว้นว่างได้ ระบบจะใส่เครื่องหมาย - ให้อัตโนมัติ</div>
+          <label for="date">วันที่</label>
+          <input id="date" required type="date">
+          <div id="formMsg" class="notice"></div>
+          <button class="primary" type="submit">เพิ่มรายการ</button>
+        </form>    <section id="fixed" class="page">
+      <div class="two">
+        <form id="fixedForm" class="card">
+          <h2>เพิ่มรายจ่ายประจำ</h2>
+          <div class="muted">ยอดรวมจะถูกใช้คำนวณ Runway อัตโนมัติ</div>
+          <label for="fixedName">ชื่อค่าใช้จ่าย</label>
+          <input id="fixedName" required maxlength="60" placeholder="เช่น ค่าเช่าห้อง">
+          <label for="fixedAmount">จำนวน / เดือน</label>
+          <input id="fixedAmount" required type="number" min="0.01" step="0.01" placeholder="0">
+          <label for="fixedCategory">หมวด</label>
+          <select id="fixedCategory">
+            <option>ที่อยู่อาศัย</option><option>อาหาร</option><option>เดินทาง / รถ</option>
+            <option>โทรศัพท์ / อินเทอร์เน็ต</option><option>Software / งาน</option>
+            <option>ประกัน</option><option>สัตว์เลี้ยง</option><option>อื่นๆ</option>
+          </select>
+          <div id="fixedMsg" class="notice"></div>
+          <button class="primary" type="submit">+ เพิ่มค่าใช้จ่าย</button>
+        </form>
+
+        <div class="card">
+          <div class="summary">
+            <div><div class="muted">รวมรายจ่ายประจำ / เดือน</div><strong id="fixedTotal">฿0</strong></div>
+            <div style="text-align:right"><div class="muted">ต่อปี</div><b id="fixedYear">฿0</b></div>
+          </div>
+          <div id="fixedEmpty" class="empty">ยังไม่มีค่าใช้จ่ายประจำ</div>
+          <div id="fixedList" class="list"></div>
+        </div>
+      </div>
+    </section><section id="assistant" class="page">
  <div class="card chat-wrap">
   <div class="summary"><div><h2>✦ Runway Assistant</h2><div class="muted">Smart Chat • ไทย / English • ไม่ใช้ AI API</div></div><button class="secondary" type="button" id="chatClear">ล้างแชท</button></div>
   <div id="chatFeed" class="chat-feed" aria-live="polite"></div>
   <div class="chat-compose"><input id="chatInput" type="text" placeholder="เช่น จ่ายค่าข้าว 150 / income 3000" autocomplete="off"><button class="primary" id="chatSend" type="button">ส่ง ➤</button></div>
-  <div class="chat-file"><label for="chatFiles">📎 ส่งสลิป (เลือกได้หลายภาพ)</label><input id="chatFiles" type="file" accept="image/*" multiple></div>
-  <p class="chat-small">พิมพ์ “ยอดเงิน”, “รายจ่ายเดือนนี้”, “runway”, “help” ได้ • สลิปอ่านเฉพาะวันที่และจำนวนเงินด้วย OCR ไทย/อังกฤษ • ตรวจสอบและเลือกประเภทก่อนบันทึกทุกครั้ง • ข้อมูลเก็บในเครื่อง</p>
+  <div class="chat-file"><label for="chatFiles">📎 แนบรูปสลิปเพื่อวิเคราะห์ (หลายภาพได้)</label><input id="chatFiles" type="file" accept="image/*" multiple></div>
+  <p class="chat-small">พิมพ์ “ยอดเงิน”, “รายจ่ายเดือนนี้”, “runway”, “help” ได้ • รูปสลิปที่ส่งในแชทจะอ่านเฉพาะวันที่และจำนวนเงินด้วย OCR ไทย/อังกฤษ • ตรวจสอบและเลือกประเภทก่อนบันทึกทุกครั้ง • ข้อมูลเก็บในเครื่อง</p>
  </div>
-</section>
-  </main>
-</div>
+</section></div><div class="modal-layer" id="modalLayer" aria-hidden="true"><div class="modal-backdrop" data-close-modal></div><div class="modal-panel" id="modalPanel" role="dialog" aria-modal="true" aria-label="หน้าต่างรายการ"><div class="modal-handle"></div><button class="modal-close" type="button" data-close-modal aria-label="ปิด">✕</button><div class="modal-content" id="modalContent"></div></div></div>
 
 <script>
 const KEY='runwayFinanceV1';
@@ -334,19 +415,22 @@ const names={income:'รายรับ',expense:'รายจ่าย',investm
 let historyMode='all';
 
 
-const THEME_DEFAULT={name:'midnight',bg:'#0c0d10',card:'#15171c',card2:'#1b1e24',line:'#2a2e37',text:'#f5f6f8',muted:'#9298a5',accent:'#8fa8ff',radius:20,font:16};
+// V14: all presets share the same translucent glass material; only tint and ambient lighting change.
 const THEME_PRESETS=[
- {name:'cloud',label:'Cloud Violet',bg:'#f3f5fb',card:'#ffffff',card2:'#f4f6fc',line:'#e5e9f3',text:'#20253b',muted:'#7e879e',accent:'#6864ee'},
- {name:'midnight',label:'Midnight Blue',bg:'#0c0d10',card:'#15171c',card2:'#1b1e24',line:'#2a2e37',text:'#f5f6f8',muted:'#9298a5',accent:'#8fa8ff'},
- {name:'rose',label:'Rose Wallet',bg:'#160f12',card:'#21161b',card2:'#2b1d23',line:'#463039',text:'#fff7f8',muted:'#b99ba5',accent:'#ef8f9e'},
- {name:'mint',label:'Mint Money',bg:'#0b1210',card:'#111c18',card2:'#182721',line:'#294239',text:'#f2fff9',muted:'#91afa2',accent:'#72d5ad'},
- {name:'ocean',label:'Ocean',bg:'#081117',card:'#0e1b24',card2:'#142631',line:'#25404f',text:'#f1faff',muted:'#8eabb9',accent:'#63bfe8'},
- {name:'cream',label:'Warm Cream',bg:'#f3eee6',card:'#fffaf3',card2:'#eee6da',line:'#d8cdbc',text:'#27231f',muted:'#746b62',accent:'#b97855'},
- {name:'mono',label:'Monochrome',bg:'#0a0a0a',card:'#151515',card2:'#202020',line:'#343434',text:'#ffffff',muted:'#999999',accent:'#eeeeee'}
+ {name:'glass-obsidian',label:'Obsidian · Default',bg:'#080b15',card:'#182039',card2:'#1d2742',line:'#44516c',text:'#f4f7ff',muted:'#aab6d0',accent:'#a4a4ff',glow1:'104,100,245',glow2:'35,144,199',glow3:'167,75,176'},
+ {name:'glass-amethyst',label:'Amethyst',bg:'#120b24',card:'#292042',card2:'#302449',line:'#64517c',text:'#f9f4ff',muted:'#c2afd6',accent:'#d0a0ff',glow1:'152,73,239',glow2:'231,82,179',glow3:'76,76,201'},
+ {name:'glass-ocean',label:'Deep Ocean',bg:'#061421',card:'#102e41',card2:'#17384a',line:'#3b687a',text:'#f0fbff',muted:'#9fc5d2',accent:'#67d8ff',glow1:'18,130,204',glow2:'35,197,192',glow3:'65,102,223'},
+ {name:'glass-emerald',label:'Emerald',bg:'#061713',card:'#12342b',card2:'#1b3b32',line:'#3c6a5b',text:'#f0fff8',muted:'#a2ccbc',accent:'#75f1c4',glow1:'27,175,131',glow2:'22,110,174',glow3:'116,199,92'},
+ {name:'glass-rose',label:'Rose Quartz',bg:'#1b0d19',card:'#392337',card2:'#422941',line:'#7a526e',text:'#fff4fb',muted:'#d9b5cf',accent:'#ffa6d9',glow1:'217,76,156',glow2:'128,72,212',glow3:'238,115,113'},
+ {name:'glass-amber',label:'Golden Hour',bg:'#1a120b',card:'#3b2a20',card2:'#493527',line:'#80624a',text:'#fff7ec',muted:'#d8c2a9',accent:'#ffca89',glow1:'232,143,55',glow2:'186,74,108',glow3:'110,84,190'}
 ];
+const THEME_DEFAULT={...THEME_PRESETS[0],radius:22,font:16};
+const GLASS_NAMES=new Set(THEME_PRESETS.map(t=>t.name));
 function themeNow(){return Object.assign({},THEME_DEFAULT,state.theme||{});}
 function applyTheme(){
  const t=themeNow(),r=document.documentElement.style;
+ document.documentElement.classList.add('theme-liquid-glass');
+ r.setProperty('--glow1',t.glow1||THEME_DEFAULT.glow1);r.setProperty('--glow2',t.glow2||THEME_DEFAULT.glow2);r.setProperty('--glow3',t.glow3||THEME_DEFAULT.glow3);
  r.setProperty('--bg',t.bg);r.setProperty('--card',t.card);r.setProperty('--card2',t.card2);
  r.setProperty('--line',t.line);r.setProperty('--text',t.text);r.setProperty('--muted',t.muted);r.setProperty('--accent',t.accent);
  r.setProperty('--radius',(t.radius||20)+'px');document.body.style.fontSize=(t.font||16)+'px';
@@ -362,7 +446,7 @@ function renderThemeSettings(){
  $('themeFont').value=t.font||16;$('themeFontValue').textContent=(t.font||16)+'px';
 }
 function setCustomTheme(){
- const t=themeNow(); t.name='custom'; t.bg=$('themeBg').value;t.card=$('themeCard').value;t.accent=$('themeAccent').value;
+ const t=themeNow(); t.name='glass-custom'; t.bg=$('themeBg').value;t.card=$('themeCard').value;t.accent=$('themeAccent').value;
  t.card2=t.card;t.radius=+$('themeRadius').value;t.font=+$('themeFont').value;
  state.theme=t;save();applyTheme();renderThemeSettings();
 }
@@ -616,7 +700,34 @@ $('themeFont').addEventListener('input',()=>{$('themeFontValue').textContent=$('
 $('resetTheme').addEventListener('click',()=>{state.theme={...THEME_DEFAULT};save();applyTheme();renderThemeSettings();});
 
 const d=new Date();$('date').value=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
-load();if(!state.theme){state.theme={name:'cloud',bg:'#f3f5fb',card:'#ffffff',card2:'#f4f6fc',line:'#e5e9f3',text:'#20253b',muted:'#7e879e',accent:'#6864ee',radius:22,font:16};save();}applyTheme();render();renderThemeSettings();
+
+// V11: animate displayed financial figures once when the app starts.
+// Calculations and persisted amounts are never changed.
+function runInitialCountUp(){
+  if(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  const ids=['available','fixedDashboard','incomeTotal','expenseTotal','investmentTotal','pendingTotal','fixedTotal','fixedYear'];
+  const nodes=ids.map(id=>document.getElementById(id)).filter(Boolean);
+  const targets=nodes.map(el=>Number((el.textContent||'').replace(/[^0-9.-]/g,''))||0);
+  const runwayEl=document.getElementById('runway');
+  const runwayTarget=runwayEl && /^\d+(?:\.\d+)?$/.test(runwayEl.textContent.trim()) ? Number(runwayEl.textContent.trim()) : null;
+  const duration=850;
+  const start=performance.now();
+  function tick(now){
+    const p=Math.min(1,(now-start)/duration);
+    const eased=1-Math.pow(1-p,3);
+    nodes.forEach((el,i)=>el.textContent=money(targets[i]*eased));
+    if(runwayTarget!==null)runwayEl.textContent=(runwayTarget*eased).toFixed(1);
+    if(p<1)requestAnimationFrame(tick);
+    else {nodes.forEach((el,i)=>el.textContent=money(targets[i]));if(runwayTarget!==null)runwayEl.textContent=runwayTarget.toFixed(1);}
+  }
+  nodes.forEach(el=>el.textContent=money(0));
+  if(runwayTarget!==null)runwayEl.textContent='0.0';
+  requestAnimationFrame(tick);
+}
+
+load();if(!state.theme){state.theme={...THEME_DEFAULT};save();}
+if(!GLASS_NAMES.has(state.theme.name)&&state.theme.name!=='glass-custom'){state.theme={...THEME_DEFAULT,radius:state.theme.radius||22,font:state.theme.font||16};save();}
+applyTheme();render();renderThemeSettings();runInitialCountUp();
 </script>
 
 <script>
@@ -627,17 +738,7 @@ if ('serviceWorker' in navigator && location.protocol !== 'file:') {
 }
 </script>
 
-<script>
-(function(){
-const $s=id=>document.getElementById(id);
-let selectedFile=null;
-$s('slipImage').addEventListener('change',e=>{selectedFile=e.target.files[0]||null;$s('slipStatus').textContent='';if(selectedFile){$s('slipPreview').src=URL.createObjectURL(selectedFile);$s('slipPreview').style.display='block';}});
-function loadOCR(){return new Promise((resolve,reject)=>{if(window.Tesseract)return resolve();const s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js';s.onload=resolve;s.onerror=()=>reject(Error('โหลดระบบอ่านสลิปไม่สำเร็จ ตรวจสอบอินเทอร์เน็ต'));document.head.appendChild(s);});}
-function amountFromText(text){const lines=text.split(/\n/);const moneyRx=/(?:฿|THB|บาท|จำนวนเงิน|ยอดเงิน|amount|total|โอนเงิน|ยอดโอน)/i;const numRx=/(?:\d{1,3}(?:,\d{3})+|\d{2,7})(?:\.\d{2})?/g;const candidates=[];for(let i=0;i<lines.length;i++){const line=lines[i];const context=lines.slice(Math.max(0,i-1),Math.min(lines.length,i+2)).join(' ');for(const m of line.matchAll(numRx)){const v=Number(m[0].replace(/,/g,''));if(v>0&&v<1e9)candidates.push({v,score:(moneyRx.test(line)?5:moneyRx.test(context)?2:0)+(m[0].includes('.')?2:0)+(m[0].includes(',')?1:0)});}}candidates.sort((a,b)=>b.score-a.score);return candidates[0]?.v||null;}
-function dateFromText(text){let m=text.match(/(\d{1,2})\s*[\/\-.]\s*(\d{1,2})\s*[\/\-.]\s*(25\d{2}|20\d{2}|\d{2})/);if(!m){const months={'ม.ค.':1,'ก.พ.':2,'มี.ค.':3,'เม.ย.':4,'พ.ค.':5,'มิ.ย.':6,'ก.ค.':7,'ส.ค.':8,'ก.ย.':9,'ต.ค.':10,'พ.ย.':11,'ธ.ค.':12};const mm=text.match(/(\d{1,2})\s*(ม\.?ค\.?|ก\.?พ\.?|มี\.?ค\.?|เม\.?ย\.?|พ\.?ค\.?|มิ\.?ย\.?|ก\.?ค\.?|ส\.?ค\.?|ก\.?ย\.?|ต\.?ค\.?|พ\.?ย\.?|ธ\.?ค\.?)\s*(25\d{2}|20\d{2}|\d{2})/);if(mm){let mon=mm[2].replace(/\./g,'');let lookup={'มค':1,'กพ':2,'มีค':3,'เมย':4,'พค':5,'มิย':6,'กค':7,'สค':8,'กย':9,'ตค':10,'พย':11,'ธค':12};m=[null,mm[1],lookup[mon],mm[3]];}}if(!m)return null;let day=+m[1],month=+m[2],year=+m[3];if(year>2400)year-=543;else if(year<100)year+=year>50?1957:2000;if(month<1||month>12||day<1||day>31)return null;const d=new Date(year,month-1,day);if(d.getFullYear()!==year||d.getMonth()!==month-1||d.getDate()!==day)return null;return `${year}-${String(month).padStart(2,'0')}-${String(day).padStart(2,'0')}`;}
-$s('scanSlip').addEventListener('click',async()=>{if(!selectedFile){$s('slipStatus').textContent='กรุณาเลือกรูปสลิปก่อน';return;}const btn=$s('scanSlip');btn.disabled=true;try{$s('slipStatus').textContent='กำลังโหลด OCR...';await loadOCR();const worker=await Tesseract.createWorker('tha+eng',1,{logger:m=>{if(m.status==='recognizing text')$s('slipStatus').textContent='กำลังอ่านสลิป '+Math.round(m.progress*100)+'%';}});let text='';try{const result=await worker.recognize(selectedFile);text=result.data.text||'';}finally{await worker.terminate();}const amount=amountFromText(text),date=dateFromText(text);if(amount)$s('amount').value=amount;if(date)$s('date').value=date;$s('slipStatus').textContent=`อ่านเสร็จ: ${amount?'จำนวนเงิน ฿'+amount.toLocaleString('th-TH'):'ไม่พบจำนวนเงิน'} / ${date?'วันที่ '+date:'ไม่พบวันที่'} — กรุณาตรวจสอบและเลือกประเภทก่อนกดเพิ่มรายการ`; }catch(err){$s('slipStatus').textContent='สแกนไม่สำเร็จ: '+err.message+' — สามารถกรอกเองได้';}finally{btn.disabled=false;}});
-})();
-</script>
+
 
 <script>
 (function(){
@@ -708,6 +809,7 @@ settings:'<circle cx="12" cy="12" r="3"/><path d="M12 2v2m0 16v2M4.9 4.9l1.4 1.4
 calendar:'<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 3v4M17 3v4M3 10h18"/>',
 clock:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
 history:'<path d="M3 12a9 9 0 1 1 2.5 6.2M3 5v7h7"/><path d="M12 7v5l4 2"/>',
+plus:'<circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/>',
 scan:'<path d="M8 3H5a2 2 0 0 0-2 2v3M16 3h3a2 2 0 0 1 2 2v3M3 16v3a2 2 0 0 0 2 2h3M21 16v3a2 2 0 0 1-2 2h-3M5 12h14"/>'
 };
 document.querySelectorAll('[data-ico]').forEach(el=>{let p=icons[el.dataset.ico];if(p)el.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true">'+p+'</svg>';});
@@ -726,9 +828,60 @@ function updateAnalytics(){
  const inc=sum('income'),exp=sum('expense'),inv=sum('investment'),pending=sum('pending');
  const total=inc+exp+inv||1;const money=n=>'฿'+Math.round(n).toLocaleString('th-TH');
  const blocks=[['รายรับ',inc,'#20bb8b'],['รายจ่าย',exp,'#f4778c'],['ลงทุน',inv,'#7169ef'],['เงินรอรับ',pending,'#eab251']];
- out.innerHTML='<div class="analytics-grid">'+blocks.map(x=>'<div class="analytics-kpi"><small>'+x[0]+'</small><strong>'+money(x[1])+'</strong></div>').join('')+'</div><h3>สัดส่วนรายการที่บันทึก</h3><div class="analytics-track">'+blocks.slice(0,3).map(x=>'<i style="width:'+(x[1]/total*100)+'%;background:'+x[2]+'"></i>').join('')+'</div><div class="analytics-legend">'+blocks.slice(0,3).map(x=>'<span style="color:'+x[2]+'">●</span> '+x[0]).join('　')+'</div><p class="hint">คำนวณจากข้อมูลที่บันทึกทั้งหมด ไม่รวมเงินรอรับในสัดส่วน</p>';
+ out.innerHTML='<div class="analytics-grid">'+blocks.map(x=>'<div class="analytics-kpi"><small>'+x[0]+'</small><strong>'+money(x[1])+'</strong></div>').join('')+'</div><h3>สัดส่วนรายการที่บันทึก</h3><div class="analytics-track">'+(()=>{const parts=blocks.slice(0,3),layers=[];let cumulative=0;parts.forEach((x,i)=>{cumulative+=x[1];if(x[1]>0)layers.push({i,width:cumulative/total*100})});return layers.reverse().map(l=>'<i class="layer-'+l.i+'" style="width:'+l.width+'%;z-index:'+(3-l.i)+';background:'+(['linear-gradient(90deg,#11d8a4,#66e0b5)','linear-gradient(90deg,#fbb1a4,#f66ca3)','linear-gradient(90deg,#7970f9,#a96cf3)'][l.i])+'"></i>').join('')})()+'</div><div class="analytics-legend">'+blocks.slice(0,3).map(x=>'<span style="color:'+x[2]+'">●</span> '+x[0]).join('　')+'</div><p class="hint">คำนวณจากข้อมูลที่บันทึกทั้งหมด ไม่รวมเงินรอรับในสัดส่วน</p>';
 }
 })();
 </script>
-</body>
+<script>
+(function(){
+ const limits={entries:8,historyList:8,pendingPageList:8};
+ function compact(){
+  Object.entries(limits).forEach(([id,limit])=>{
+   const box=document.getElementById(id);if(!box)return;
+   const rows=[...box.querySelectorAll(':scope > .row')];
+   rows.forEach((row,i)=>{row.style.display=i<limit?'':'none'});
+   let btn=document.getElementById('more-'+id);
+   if(rows.length<=8){if(btn)btn.remove();return;}
+   if(!btn){btn=document.createElement('button');btn.id='more-'+id;btn.type='button';btn.className='secondary';btn.style.cssText='width:100%;margin-top:10px;font-size:12px';box.after(btn);btn.addEventListener('click',()=>{limits[id]=limits[id]===8?Number.MAX_SAFE_INTEGER:8;compact()})}
+   btn.textContent=limit===8?'ดูเพิ่มเติม ('+(rows.length-8)+' รายการ)':'ย่อรายการ';
+  });
+ }
+ const observer=new MutationObserver(()=>{if(window.__v7Timer)clearTimeout(window.__v7Timer);window.__v7Timer=setTimeout(compact,0)});
+ ['entries','historyList','pendingPageList'].forEach(id=>{const el=document.getElementById(id);if(el)observer.observe(el,{childList:true})});
+ compact();
+})();
+</script>
+<script>
+(function(){
+ const layer=document.getElementById('modalLayer'),panel=document.getElementById('modalPanel'),content=document.getElementById('modalContent'),stash=document.getElementById('modalStash');
+ const entry=document.getElementById('entryForm'),fixed=document.getElementById('fixed'),assistant=document.getElementById('assistant');
+ let current=null,returnFocus=null;
+ const mapping={entry, fixed, assistant};
+ function openModal(kind){
+  if(!mapping[kind])return;
+  if(current)closeModal();
+  current=kind;returnFocus=document.activeElement;
+  content.appendChild(mapping[kind]);mapping[kind].style.display='block';
+  layer.classList.add('open');layer.setAttribute('aria-hidden','false');panel.classList.toggle('full-chat',kind==='assistant');
+  document.body.classList.add('modal-lock');
+  if(kind==='assistant'){setTimeout(()=>document.getElementById('chatInput')?.focus({preventScroll:true}),250);}
+  else setTimeout(()=>panel.focus({preventScroll:true}),100);
+ }
+ function closeModal(){if(!current)return;stash.appendChild(mapping[current]);mapping[current].style.display='none';current=null;layer.classList.remove('open');layer.setAttribute('aria-hidden','true');document.body.classList.remove('modal-lock');returnFocus?.focus?.({preventScroll:true});}
+ window.runwayOpenModal=openModal;window.runwayCloseModal=closeModal;
+ document.querySelectorAll('[data-close-modal]').forEach(x=>x.addEventListener('click',closeModal));
+ document.addEventListener('keydown',e=>{if(e.key==='Escape'&&current)closeModal();});
+ document.addEventListener('click',e=>{let b=e.target.closest('[data-open-modal]');if(b){e.preventDefault();openModal(b.dataset.openModal);}});
+ // intercept shortcuts and bottom nav before their original handlers run
+ document.querySelectorAll('[data-go="fixed"],[data-go="assistant"],[data-target="assistant"],#quickAdd,.goto-fixed').forEach(b=>b.addEventListener('click',e=>{e.preventDefault();e.stopImmediatePropagation();openModal(b.dataset.go||b.dataset.target|| (b.id==='quickAdd'?'assistant':'fixed'));},true));
+ // Keep the transaction history page normal; FAB opens add form
+ // hide old fixed/assistant pages without breaking existing DOM hooks
+ fixed.style.display='none';assistant.style.display='none';
+ // swipe-down dismiss only if scroll position at top, avoid dismissing while interacting with inputs
+ let startY=null;panel.addEventListener('touchstart',e=>{if(e.target.closest('input,textarea,select,button'))return;startY=e.touches[0].clientY;},{passive:true});
+ panel.addEventListener('touchend',e=>{if(startY===null)return;const delta=e.changedTouches[0].clientY-startY;startY=null;if(delta>110&&content.scrollTop===0&&current!=='assistant')closeModal();},{passive:true});
+ // Keep form submission inside modal so users can add more; close after successful valid entry
+ entry.addEventListener('submit',()=>{if(entry.checkValidity())setTimeout(()=>{if(current==='entry')closeModal()},60);});
+})();
+</script></body>
 </html>
